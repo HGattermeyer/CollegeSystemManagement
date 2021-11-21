@@ -3,8 +3,8 @@
     public class Student : Person
     {
         public DateTime BirthDate { get; set; }
-        public Course Course { get; set; }
-        public IEnumerable<Grade> Grades { get; set; } = new List<Grade>();
+        public Course? Course { get; set; }
+        public int CourseId { get; set; }
 
         public Student()
         {

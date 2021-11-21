@@ -1,6 +1,7 @@
-﻿using CollegeSystemSystem.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using CollegeSystemSystem.Models;
 using System.Diagnostics;
+using CollegeSystemSystem.Models.ViewModels;
 
 namespace CollegeSystemSystem.Controllers
 {
@@ -15,6 +16,7 @@ namespace CollegeSystemSystem.Controllers
 
         public IActionResult Index()
         {
+            ViewData["Message"] = "This is the index";
             return View();
         }
 
