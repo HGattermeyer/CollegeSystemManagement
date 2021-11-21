@@ -11,6 +11,7 @@ builder.Services.AddDbContext<CollegeSystemDbContext>(options =>
 // Add services to container
 builder.Services.AddScoped<CourseService>();
 builder.Services.AddScoped<StudentService>();
+builder.Services.AddScoped<SubjectService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
