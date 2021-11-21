@@ -15,17 +15,21 @@ namespace CollegeSystemSystem.Controllers
     {
         private readonly CollegeSystemDbContext _context;
         private readonly SubjectService _subjectService;
+        private readonly CourseService _courseService;
+        private readonly TeacherService _teacherService;
 
-        public SubjectsController(CollegeSystemDbContext context, SubjectService subjectService)
+        public SubjectsController(CollegeSystemDbContext context, SubjectService subjectService, CourseService courseSubject, TeacherService teacherSubject)
         {
             _context = context;
             _subjectService = subjectService;
+            _courseService = courseSubject;
+            _teacherService = teacherSubject;
         }
 
         // GET: Subjects
         public async Task<IActionResult> Index()
         {
-            var collegeSystemDbContext = _context.Subject.Include(s => s.Course);
+            var collegeSystemDbContext = _context.Subject.Include(s => s.Course).Include(t => t.Teacher);
             return View(await collegeSystemDbContext.ToListAsync());
         }
 
@@ -52,6 +56,7 @@ namespace CollegeSystemSystem.Controllers
         public IActionResult Create()
         {
             ViewData["CourseName"] = new SelectList(_context.Course, "Id", "CourseName");
+            ViewData["TeacherName"] = new SelectList(_context.Teacher, "Id", "Name");
             return View();
         }
 
@@ -60,8 +65,14 @@ namespace CollegeSystemSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,SubjectName,CourseId")] Subject subject)
+        public async Task<IActionResult> Create([Bind("Id,SubjectName,CourseId,TeacherId")] Subject subject)
         {
+            subject.Course = _courseService.FindById(subject.CourseId); ;
+            subject.Teacher = _teacherService.FindById(subject.TeacherId); ; ;
+
+            ModelState.Clear();
+            TryValidateModel(subject);
+
             if (ModelState.IsValid)
             {
                 _context.Add(subject);
@@ -69,6 +80,7 @@ namespace CollegeSystemSystem.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CourseId"] = new SelectList(_context.Course, "Id", "Id", subject.CourseId);
+            ViewData["TeacherId"] = new SelectList(_context.Teacher, "Id", "Id", subject.TeacherId);
             return View(subject);
         }
 
@@ -86,6 +98,8 @@ namespace CollegeSystemSystem.Controllers
                 return NotFound();
             }
             ViewData["CourseName"] = new SelectList(_context.Course, "Id", "CourseName", subject.CourseId);
+            ViewData["TeacherName"] = new SelectList(_context.Teacher, "Id", "Name", subject.TeacherId);
+
             return View(subject);
         }
 
@@ -94,12 +108,18 @@ namespace CollegeSystemSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,SubjectName,CourseId")] Subject subject)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,SubjectName,CourseId,TeacherId")] Subject subject)
         {
             if (id != subject.Id)
             {
                 return NotFound();
             }
+
+            subject.Course = _courseService.FindById(subject.CourseId); ;
+            subject.Teacher = _teacherService.FindById(subject.TeacherId); ; ;
+
+            ModelState.Clear();
+            TryValidateModel(subject);
 
             if (ModelState.IsValid)
             {
@@ -122,6 +142,7 @@ namespace CollegeSystemSystem.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CourseId"] = new SelectList(_context.Course, "Id", "Id", subject.CourseId);
+            ViewData["TeacherName"] = new SelectList(_context.Teacher, "Id", "Name", subject.TeacherId);
             return View(subject);
         }
 
