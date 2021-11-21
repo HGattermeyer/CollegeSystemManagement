@@ -8,6 +8,7 @@
         public int CourseId { get; set; }
         public Teacher Teacher { get; set; }
         public int TeacherId { get; set; }
+        public IEnumerable<Grade> Grades { get; set; } = new List<Grade>();
 
         public Subject()
         {

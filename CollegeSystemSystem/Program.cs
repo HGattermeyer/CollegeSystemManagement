@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using CollegeSystemSystem.Data;
 using CollegeSystemSystem.Services;
 
@@ -12,7 +11,8 @@ builder.Services.AddDbContext<CollegeSystemDbContext>(options =>
 builder.Services.AddScoped<CourseService>();
 builder.Services.AddScoped<StudentService>();
 builder.Services.AddScoped<SubjectService>();
-builder.Services.AddScoped<TeacherService>(); 
+builder.Services.AddScoped<TeacherService>();
+builder.Services.AddScoped<GradeService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

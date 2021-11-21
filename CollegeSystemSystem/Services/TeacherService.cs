@@ -20,7 +20,6 @@ namespace CollegeSystemSystem.Services
             return await _context.Teacher.FirstOrDefaultAsync(obj => obj.Id == id);
         }
 
-
         public Teacher FindById(int id)
         {
             return _context.Teacher.FirstOrDefault(obj => obj.Id == id);

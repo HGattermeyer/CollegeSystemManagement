@@ -17,12 +17,14 @@ namespace CollegeSystemSystem.Controllers
         private readonly CollegeSystemDbContext _context;
         private readonly CourseService _courseService;
         private readonly StudentService _studentService;
+        private readonly GradeService _gradeService;
 
-        public StudentsController(CollegeSystemDbContext context, CourseService courseService, StudentService studentService)
+        public StudentsController(CollegeSystemDbContext context, CourseService courseService, StudentService studentService, GradeService gradeService)
         {
             _context = context;
             _courseService = courseService;
             _studentService = studentService;
+            _gradeService = gradeService;
         }
 
         // GET: Students
@@ -71,13 +73,24 @@ namespace CollegeSystemSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("BirthDate,Id,Name,CourseId")] Student student)
         {
-            if (ModelState.IsValid)
+            student.Course = await _courseService.FindByIdAsync(student.CourseId);
+                        
+            ModelState.Clear();
+            TryValidateModel(student);
+
+            if (!ModelState.IsValid)
             {
-                _context.Add(student);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return View(nameof(Index));
             }
-            return View(nameof(Index));
+
+            _context.Add(student);
+            await _context.SaveChangesAsync();
+
+            // Bind the Student with subjects and grades (empty at beginning)
+            await _gradeService.InsertGradeByCourse(student);
+
+            return RedirectToAction(nameof(Index));
+            
         }
 
         // GET: Students/Edit/5

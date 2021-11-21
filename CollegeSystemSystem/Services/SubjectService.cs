@@ -17,5 +17,17 @@ namespace CollegeSystemSystem.Services
         {
             return await _context.Subject.ToListAsync();
         }
+
+        public async Task<Subject> FindByIdAsync(int id)
+        {
+            return await _context.Subject.FirstOrDefaultAsync(obj => obj.Id == id);
+        }
+
+        public async Task<List<Subject>> FindByCourseIdAsync(int id)
+        {
+            return await _context.Subject.Where(obj => obj.CourseId == id).ToListAsync();
+        }
+
+
     }
 }
