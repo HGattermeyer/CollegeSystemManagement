@@ -148,6 +148,17 @@ namespace CollegeSystemSystem.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public IActionResult Error(string message)
+        {
+            var viewModel = new ErrorViewModel
+            {
+                Message = message,
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+
+            };
+
+            return View(viewModel);
+        }
         private bool TeacherExists(int id)
         {
             return _context.Teacher.Any(e => e.Id == id);

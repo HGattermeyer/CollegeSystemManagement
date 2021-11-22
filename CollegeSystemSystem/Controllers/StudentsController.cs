@@ -9,6 +9,7 @@ using CollegeSystemSystem.Data;
 using CollegeSystemSystem.Models;
 using CollegeSystemSystem.Services;
 using CollegeSystemSystem.Models.ViewModels;
+using System.Diagnostics;
 
 namespace CollegeSystemSystem.Controllers
 {
@@ -168,12 +169,30 @@ namespace CollegeSystemSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            try { 
             var student = await _context.Student.FindAsync(id);
             _context.Student.Remove(student);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+            }
+
+            catch (DbUpdateException e)
+            {
+                return RedirectToAction(nameof(Error), new { message = "The student is binded to the courses and grade, please delete them first." });
+            }
         }
 
+        public IActionResult Error(string message)
+        {
+            var viewModel = new ErrorViewModel
+            {
+                Message = message,
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+
+            };
+
+            return View(viewModel);
+        }
         private bool StudentExists(int id)
         {
             return _context.Student.Any(e => e.Id == id);

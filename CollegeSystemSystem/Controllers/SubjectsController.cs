@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using CollegeSystemSystem.Data;
 using CollegeSystemSystem.Models;
 using CollegeSystemSystem.Services;
+using System.Diagnostics;
 
 namespace CollegeSystemSystem.Controllers
 {
@@ -174,12 +175,31 @@ namespace CollegeSystemSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var subject = await _context.Subject.FindAsync(id);
-            _context.Subject.Remove(subject);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                var subject = await _context.Subject.FindAsync(id);
+                _context.Subject.Remove(subject);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException e)
+            {
+                return RedirectToAction(nameof(Error), new { message = "There are some subjets and students binded to this course. Delete them first" });
+            }
+        }
         }
 
+        public IActionResult Error(string message)
+        {
+            var viewModel = new ErrorViewModel
+            {
+                Message = message,
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+
+            };
+
+            return View(viewModel);
+        }
         private bool SubjectExists(int id)
         {
             return _context.Subject.Any(e => e.Id == id);
