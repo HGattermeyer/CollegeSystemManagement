@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using CollegeSystemSystem.Data;
 using CollegeSystemSystem.Models;
 using CollegeSystemSystem.Services;
+using System.Diagnostics;
 
 namespace CollegeSystemSystem.Controllers
 {
@@ -19,7 +20,7 @@ namespace CollegeSystemSystem.Controllers
         private readonly SubjectService _subjectService;
         private readonly GradeService _gradeService;
 
-        public CoursesController(CollegeSystemDbContext context, CourseService courseService, StudentService studentService,SubjectService subjectService, GradeService gradeService)
+        public CoursesController(CollegeSystemDbContext context, CourseService courseService, StudentService studentService, SubjectService subjectService, GradeService gradeService)
         {
             _context = context;
             _courseService = courseService;
@@ -42,7 +43,7 @@ namespace CollegeSystemSystem.Controllers
 
                 studentNumber.Add(course.Students.Count());
             }
-            
+
             ViewBag.StudentNumber = studentNumber;
             // Number of teacher, students, and average of their grades
             return View(courses);
@@ -165,14 +166,33 @@ namespace CollegeSystemSystem.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var course = await _context.Course.FindAsync(id);
-            _context.Course.Remove(course);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                _context.Course.Remove(course);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (ApplicationException e)
+            {
+                return RedirectToAction(nameof(Error), new { message = e.Message });
+            }
         }
 
         private bool CourseExists(int id)
         {
             return _context.Course.Any(e => e.Id == id);
+        }
+
+        public IActionResult Error(string message)
+        {
+            var viewModel = new ErrorViewModel
+            {
+                Message = message,
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+
+            };
+
+            return View(viewModel);
         }
     }
 }

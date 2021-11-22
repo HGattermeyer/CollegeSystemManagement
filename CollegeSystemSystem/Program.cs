@@ -9,12 +9,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<CollegeSystemDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("CollegeSystemDbContext")));
 
+
+
 // Add services to container
 builder.Services.AddScoped<CourseService>();
 builder.Services.AddScoped<StudentService>();
 builder.Services.AddScoped<SubjectService>();
 builder.Services.AddScoped<TeacherService>();
 builder.Services.AddScoped<GradeService>();
+
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -28,6 +32,8 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+
 
 var enUS = new CultureInfo("en-US");
 var localizationOptions = new RequestLocalizationOptions
