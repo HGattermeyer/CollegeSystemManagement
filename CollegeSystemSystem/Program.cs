@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Localization;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<CollegeSystemDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("CollegeSystemDbContext")));
+    options.UseSqlServer("Server=localhost;Database=CollegeSystemDbContext;Trusted_Connection=True;MultipleActiveResultSets=true"));
 
 
 
@@ -15,7 +15,7 @@ builder.Services.AddDbContext<CollegeSystemDbContext>(options =>
 builder.Services.AddScoped<CourseService>();
 builder.Services.AddScoped<StudentService>();
 builder.Services.AddScoped<SubjectService>();
-builder.Services.AddScoped<TeacherService>();
+builder.Services.AddScoped<TeacherService>();   
 builder.Services.AddScoped<GradeService>();
 
 
