@@ -1,17 +1,17 @@
 ﻿@model CollegeSystemSystem.Models.Grade
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Change Grade";
 }
 
-<h1>Edit</h1>
+<h1>Change Grade</h1>
 
-<h4>Grade</h4>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
-         <input type="hidden" name="PreviousUrl" value="@Html.ActionLink("","Detail","Students", new{id = @Model.Id})" />
+         
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <input type="hidden" asp-for="SubjectId" />
@@ -40,15 +40,12 @@
             </div>
 
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{
