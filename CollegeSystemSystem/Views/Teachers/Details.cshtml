@@ -30,6 +30,46 @@
         </dd>
     </dl>
 </div>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Subject
+            </th>
+            <th>
+                Course
+            </th>
+            <th>
+                Number of Students
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (Subject subject in Model.Subjects)
+        {
+            <tr>
+
+                <td>
+                    @subject.SubjectName
+                </td>
+                <td>
+                    @subject.Course.CourseName
+                </td>
+                <td>
+                    @subject.Course.Students.Count()
+                </td>
+
+            </tr>
+
+        }
+    </tbody>
+</table>
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>

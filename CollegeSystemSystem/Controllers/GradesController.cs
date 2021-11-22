@@ -107,9 +107,12 @@ namespace CollegeSystemSystem.Controllers
                 return NotFound();
             }
 
-            var grade = await _context.Grade.FindAsync(id);
-            grade.Student = await _studentService.FindByIdAsync(grade.StudentId);
-            grade.Subject = await _subjectService.FindByIdAsync(grade.SubjectId);
+            var grade = await _context.Grade
+                .Include(s => s.Student)
+                .Include(s => s.Subject)
+                .Where(s => s.Id == id)
+                .FirstOrDefaultAsync();
+            
             if (grade == null)
             {
                 return NotFound();
@@ -158,11 +161,11 @@ namespace CollegeSystemSystem.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Students", new { id = grade.Student.Id });
             }
             ViewData["StudentId"] = new SelectList(_context.Student, "Id", "Id", grade.StudentId);
             ViewData["SubjectId"] = new SelectList(_context.Subject, "Id", "Id", grade.SubjectId);
-            return View(grade);
+            return RedirectToAction("Details", "Students", new { id = grade.Student.Id });
         }
 
         // GET: Grades/Delete/5

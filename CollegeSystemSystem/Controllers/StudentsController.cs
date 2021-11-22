@@ -44,16 +44,15 @@ namespace CollegeSystemSystem.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Student
+            Student student = await _context.Student
+                .Include(c => c.Course)
+                .Include(g => g.Grades)
+                .ThenInclude(s => s.Subject)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (student == null)
             {
                 return NotFound();
             }
-
-
-            student.Course = await _courseService.FindByIdAsync(student.CourseId);
-
 
             return View(student);
         }

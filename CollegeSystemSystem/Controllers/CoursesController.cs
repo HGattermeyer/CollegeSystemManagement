@@ -57,6 +57,8 @@ namespace CollegeSystemSystem.Controllers
             }
 
             var course = await _context.Course
+                .Include(s => s.Students)
+                .Include(s => s.Subjects)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (course == null)
             {

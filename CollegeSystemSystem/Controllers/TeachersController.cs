@@ -34,6 +34,9 @@ namespace CollegeSystemSystem.Controllers
             }
 
             var teacher = await _context.Teacher
+                .Include(s => s.Subjects)
+                .ThenInclude(c => c.Course)
+                .ThenInclude(s => s.Students)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (teacher == null)
             {

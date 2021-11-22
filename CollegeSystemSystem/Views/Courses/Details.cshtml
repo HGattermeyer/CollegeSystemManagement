@@ -18,6 +18,39 @@
         </dd>
     </dl>
 </div>
+
+<table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Subjects Name
+                </th>
+                <th>
+                    Student
+                </th>
+
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (Student student in Model.Students)
+            {
+                @foreach(Subject subject in student.Course.Subjects){
+                <tr>
+
+                    <td>
+                        @subject.SubjectName
+                    </td>
+                    <td>
+                        @student.Name
+                    </td>
+
+                </tr>
+                }
+            }
+        </tbody>
+    </table>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>

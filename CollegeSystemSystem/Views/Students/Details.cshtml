@@ -30,6 +30,50 @@
         </dd>
     </dl>
 </div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Subjects Name
+            </th>
+            <th>
+                Grade
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (Grade grade in Model.Grades)
+        {
+            <tr>
+
+                <td>
+                    @grade.Subject.SubjectName
+                </td>
+
+                <td>
+                    @{
+                        if (@grade.GradeNumber == null)
+                        {
+                            @Html.ActionLink("Add","Edit","Grades", new{id = @grade.Id})
+                        }
+                        else
+                        {
+                            @Html.ActionLink(@grade.GradeNumber.ToString(),"Edit","Grades", new{id = @grade.Id})
+                        }
+                    }
+
+                </td>
+
+            </tr>
+
+        }
+    </tbody>
+</table>
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>

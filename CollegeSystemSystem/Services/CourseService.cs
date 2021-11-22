@@ -21,7 +21,7 @@ namespace CollegeSystemSystem.Services
 
         public async Task<Course> FindByIdAsync(int id) => await _context.Course.
                 Include(s => s.Students).ThenInclude(g => g.Grades).
-                Include(u => u.Subjects).ThenInclude(x => x.Id).
+                Include(u => u.Subjects).ThenInclude(t => t.Teacher).
                 Where(x => x.Id == id).SingleOrDefaultAsync();
 
         //public async Task<Course> FindByIdAsync(int id) => await _context.Course.
