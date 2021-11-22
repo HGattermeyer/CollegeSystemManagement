@@ -1,15 +1,15 @@
 ﻿@model IEnumerable<CollegeSystemSystem.Models.Subject>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Subjects";
 }
 
-<h1>Index</h1>
+<h1>Subjects</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-primary">Create New</a>
+    <a asp-action="Create" class="btn btn-default">Create New</a>
 </p>
-<table class="table">
+<table class="table table-hover">
     <thead>
         <tr>
             <th>
@@ -49,13 +49,14 @@
                         {
                             avg = 0;
                         }
+                        avg = Math.Round((float)avg, 2);
                     }
                     @avg
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-secundary">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-alarm">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id" >Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id" >Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id" >Delete</a>
                 </td>
             </tr>
         }

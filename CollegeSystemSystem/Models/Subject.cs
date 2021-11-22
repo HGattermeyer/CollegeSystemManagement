@@ -1,8 +1,11 @@
-﻿namespace CollegeSystemSystem.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace CollegeSystemSystem.Models
 {
     public class Subject
     {
         public int Id { get; set; }
+        [Display(Name = "Subject")]
         public string SubjectName { get; set; }
         public Course? Course { get; set; }
         public int CourseId { get; set; }

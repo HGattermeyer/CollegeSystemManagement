@@ -1,12 +1,12 @@
 ﻿@model CollegeSystemSystem.Models.Subject
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Add Subjects";
 }
 
-<h1>Create</h1>
+<h1>Add Subjects</h1>
 
-<h4>Subject</h4>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -26,15 +26,14 @@
                 <select asp-for="TeacherId" class="form-control" asp-items="ViewBag.TeacherName"></select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-default" />
+                <a asp-action="Index" class="btn btn-default">Back to List</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{

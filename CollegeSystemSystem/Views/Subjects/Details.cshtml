@@ -1,13 +1,12 @@
 ﻿@model CollegeSystemSystem.Models.Subject
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Subject Details";
 }
 
-<h1>Details</h1>
+<h1>Subject Details</h1>
 
-<div>
-    <h4>Subject</h4>
+<div>    
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -31,7 +30,7 @@
     </dl>
     @*Lista de alunos e suas notas*@
 
-    <table class="table">
+    <table class="table table-hover">
         <thead>
             <tr>
                 <th>
@@ -66,6 +65,6 @@
 
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-default">Edit</a> |
+    <a asp-action="Index" class="btn btn-default">Back to List</a>
 </div>
