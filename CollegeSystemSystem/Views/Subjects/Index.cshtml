@@ -21,6 +21,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Teacher.Name)
             </th>
+            <th>
+                Average Grade
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -28,14 +31,26 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SubjectName)
+                <td>        
+                    <a asp-action="Details" asp-route-id="@item.Id" >@Html.DisplayFor(modelItem => item.SubjectName)</a>                    
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Course.CourseName)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Teacher.Name)
+                </td>
+                <td>
+                    @{
+                        var sum = item.Grades.Sum(g => g.GradeNumber);
+                        var count = item.Grades.Count();
+                        var avg = sum / count;
+                        if (count == 0)
+                        {
+                            avg = 0;
+                        }
+                    }
+                    @avg
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-secundary">Edit</a> |

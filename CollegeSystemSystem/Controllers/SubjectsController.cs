@@ -29,7 +29,7 @@ namespace CollegeSystemSystem.Controllers
         // GET: Subjects
         public async Task<IActionResult> Index()
         {
-            var collegeSystemDbContext = _context.Subject.Include(s => s.Course).Include(t => t.Teacher);
+            var collegeSystemDbContext = _context.Subject.Include(s => s.Course).Include(t => t.Teacher).Include(g => g.Grades);
             return View(await collegeSystemDbContext.ToListAsync());
         }
 
@@ -41,9 +41,13 @@ namespace CollegeSystemSystem.Controllers
                 return NotFound();
             }
 
-            var subject = await _context.Subject
+            Subject subject = await _context.Subject
                 .Include(s => s.Course)
+                .ThenInclude(x => x.Students)
+                .Include(g => g.Grades)
+                .Include(t => t.Teacher)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (subject == null)
             {
                 return NotFound();

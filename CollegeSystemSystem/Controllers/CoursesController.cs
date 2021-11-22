@@ -40,10 +40,7 @@ namespace CollegeSystemSystem.Controllers
                 course.Students = await _studentService.FindAllByCourseIdAsync(course.Id);
                 course.Subjects = await _subjectService.FindAllByCourseIdAsync(course.Id);
 
-
                 studentNumber.Add(course.Students.Count());
-
-
             }
             
             ViewBag.StudentNumber = studentNumber;
