@@ -7,22 +7,48 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CollegeSystemSystem.Data;
 using CollegeSystemSystem.Models;
+using CollegeSystemSystem.Services;
 
 namespace CollegeSystemSystem.Controllers
 {
     public class CoursesController : Controller
     {
         private readonly CollegeSystemDbContext _context;
+        private readonly CourseService _courseService;
+        private readonly StudentService _studentService;
+        private readonly SubjectService _subjectService;
+        private readonly GradeService _gradeService;
 
-        public CoursesController(CollegeSystemDbContext context)
+        public CoursesController(CollegeSystemDbContext context, CourseService courseService, StudentService studentService,SubjectService subjectService, GradeService gradeService)
         {
             _context = context;
+            _courseService = courseService;
+            _studentService = studentService;
+            _subjectService = subjectService;
+            _gradeService = gradeService;
         }
 
         // GET: Courses
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Course.ToListAsync());
+            List<Course> courses = await _courseService.FindAllAsync();
+
+            List<int> studentNumber = new List<int>();
+
+            foreach (Course course in courses)
+            {
+                course.Students = await _studentService.FindAllByCourseIdAsync(course.Id);
+                course.Subjects = await _subjectService.FindAllByCourseIdAsync(course.Id);
+
+
+                studentNumber.Add(course.Students.Count());
+
+
+            }
+            
+            ViewBag.StudentNumber = studentNumber;
+            // Number of teacher, students, and average of their grades
+            return View(courses);
         }
 
         // GET: Courses/Details/5

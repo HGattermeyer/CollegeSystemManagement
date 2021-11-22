@@ -28,6 +28,10 @@ namespace CollegeSystemSystem.Services
             return await _context.Subject.Where(obj => obj.CourseId == id).ToListAsync();
         }
 
+        public async Task<List<Subject>> FindAllByCourseIdAsync(int id)
+        {
+            return await _context.Subject.Where(obj => obj.CourseId == id).ToListAsync();
+        }
 
     }
 }

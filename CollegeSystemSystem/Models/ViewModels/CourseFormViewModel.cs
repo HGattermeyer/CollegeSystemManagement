@@ -4,5 +4,7 @@
     {
         public Course Course { get; set; }
         public ICollection<Student> Students { get; set; }
+
+
     }
 }

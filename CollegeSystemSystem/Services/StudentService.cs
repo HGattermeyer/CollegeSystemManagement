@@ -14,14 +14,18 @@ namespace CollegeSystemSystem.Services
         }
 
         public async Task<List<Student>> FindAllAsync()
-        { 
-            return await _context.Student.ToListAsync(); 
+        {
+            return await _context.Student.ToListAsync();
         }
 
-        public async Task <Student> FindByIdAsync(int id)
+        public async Task<List<Student>> FindAllByCourseIdAsync(int id)
+        {
+            return await _context.Student.Where(obj => obj.CourseId == id).Include(g => g.Grades).ToListAsync();
+        }
+
+        public async Task<Student> FindByIdAsync(int id)
         {
             return await _context.Student.FirstOrDefaultAsync(x => x.Id == id);
-                
         }
     }
 }

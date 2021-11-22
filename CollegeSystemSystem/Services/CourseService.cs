@@ -13,12 +13,21 @@ namespace CollegeSystemSystem.Services
             _context = context;
         }
 
-        public async Task<List<Course>> FindAllAsync() { return await _context.Course.ToListAsync(); }
-
-        public async Task<Course> FindByIdAsync(int id)
+        public async Task<List<Course>> FindAllAsync()
         {
-            return await _context.Course.FirstOrDefaultAsync(obj => obj.Id == id);
+            return await _context.Course.ToListAsync();
+
         }
+
+        public async Task<Course> FindByIdAsync(int id) => await _context.Course.
+                Include(s => s.Students).ThenInclude(g => g.Grades).
+                Include(u => u.Subjects).ThenInclude(x => x.Id).
+                Where(x => x.Id == id).SingleOrDefaultAsync();
+
+        //public async Task<Course> FindByIdAsync(int id) => await _context.Course.
+        //Include(s => s.Students).ThenInclude(g => g.Grades).
+        //Include(u => u.Subjects).ThenInclude(x => x.Id).
+        //FirstOrDefaultAsync(obj => obj.Id == id);
 
 
         public Course FindById(int id)
